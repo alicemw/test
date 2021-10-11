@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>d大幅度</p>
+    <p>d大幅度</p>
+    <word-count img="./tb.png" text="Your card validation code (CVC)
+    is an extra security feature" >fffffffffffffffff</word-count>
+
+    <script>
+        class WordCount extends HTMLElement {
+            constructor(){
+                super()
+                // 创建一个 shadow root
+                var shadow = this.attachShadow({mode: 'open'});
+
+                // 创建一个 spans
+                var wrapper = document.createElement('span');
+                wrapper.setAttribute('class','wrapper');
+                var icon = document.createElement('span');
+                icon.setAttribute('class','icon');
+                icon.setAttribute('tabindex', 0);
+                var info = document.createElement('span');
+                info.setAttribute('class','info');
+
+                // 获取text属性上的内容，并添加到一个span标签内
+                var text = this.getAttribute('text');
+                info.textContent = text;
+
+                // 插入 icon
+                var imgUrl;
+                if(this.hasAttribute('img')) {
+                    imgUrl = this.getAttribute('img');
+                } else {
+                    imgUrl = './demo.jpg';
+                }
+                var img = document.createElement('img');
+                img.src = imgUrl;
+                icon.appendChild(img);
+
+                // 创建一些 CSS，并应用到 shadow dom上
+                var style = document.createElement('style');
+                
+                style.textContent = `
+                .wrapper {
+                    position: relative;
+                }
+                .info {
+                    font-size: 0.8rem;
+                    width: 200px;
+                    display: inline-block;
+                    border: 1px solid black;
+                    padding: 10px;
+                    background: white;
+                    border-radius: 10px;
+                    opacity: 0;
+                    transition: 0.6s all;
+                    position: absolute;
+                    bottom: 20px;
+                    left: 10px;
+                    z-index: 3;
+                }
+                img {
+                    width: 1.2rem;
+                }
+                .icon:hover + .info, .icon:focus + .info {
+                    opacity: 1;
+                }
+                `;
+                var style2 = document.createElement('style')
+                    style2.textContent = `
+                    .wrapper {
+                        background-color: red;
+                    }
+                    `
+                var botom = document.createElement('div')
+                    botom.className = 'good'
+                    botom.innerText = 'bottom'
+                    botom.style.textAlign = 'center'
+                // 简洁起见，省略了具体的CSS
+
+                // 将创建的元素附加到 shadow dom
+                wrapper.appendChild(botom)
+                shadow.appendChild(style);
+                shadow.appendChild(style2)
+                shadow.appendChild(wrapper);
+                wrapper.appendChild(icon);
+                wrapper.appendChild(info);
+            }
+        }
+        customElements.define('word-count',WordCount)
+    </script>
+</body>
+</html>
